@@ -37,7 +37,7 @@ all_data <- cbind(extract, activity, subject=subject$V1)
 means <- aggregate(. ~ activity + subject, all_data, mean)
 
 # export the data
-write.table(means, "CourseraProjectSummary.txt", row.names = FALSE)
+write.table(means, "Mean_Samsung_data.txt", row.names = FALSE)
 
 
 
