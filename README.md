@@ -18,12 +18,10 @@ Line 37 calculates the mean of all variables for each combination of participant
 
 Line 40 exports the data to "Mean_Samsung_data.txt".
 
-
-
-
 dat <- read.table("Mean_Samsung_data.txt", head=TRUE) should be sufficient to load this data into R
 
-
+## Codebook
+Lines 43 onwards generate a codebook for the dataset using a series of logical tests to paste the appropriate text together and writes the output to a file called "CodeBook.txt" (file CodeBook.txt in the repo).
 
 
 
