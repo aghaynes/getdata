@@ -16,7 +16,7 @@ nams <- read.table("UCI HAR Dataset/features.txt")
 names(dat) <- nams[,2]
 
 # extract mean and standard deviation columns
-extract <- dat[,grepl("mean(", names(dat), fixed=TRUE)|grepl("std", names(dat))]
+extract <- dat[,grepl("mean", names(dat), ignore.case=TRUE)|grepl("std", names(dat))]
 
 # load and label activities activities
 trainy <- read.table("UCI HAR Dataset/train/y_train.txt")
@@ -40,5 +40,38 @@ means <- aggregate(. ~ activity + subject, all_data, mean)
 write.table(means, "Mean_Samsung_data.txt", row.names = FALSE)
 
 
+# CODEBOOK
+nm <- names(means)
+labs <- paste(ifelse(nm=="activity", "Activity", ""),
+              ifelse(nm=="subject", "Participant identifier", ""),
+              ifelse(grepl("mean(", nm, fixed=TRUE), "Mean ", ""),
+              ifelse(grepl("meanF", nm), "Mean frequency ", ""),
+              ifelse(grepl("std", nm), "Standard deviation of ", ""),
+              ifelse(grepl("Body", nm), "body movement ", ""),
+              ifelse(substr(nm, 1, 1) == "t", "time ", ""),
+              ifelse(substr(nm, 1, 1) == "f", "fast fourier transformed time ", ""),
+              ifelse(substr(nm, 1, 5) == "angle", "Angle ", ""),
+              ifelse(grepl("Acc", nm), "accelerometer ", ""),
+              ifelse(grepl("Gyro", nm), "gyroscope ", ""),
+              ifelse(grepl("Jerk", nm), "jerk ", ""),
+              ifelse(grepl("Mag", nm), "magnitude ", ""),
+              ifelse(grepl("X", nm), "X-axis", 
+                     ifelse(grepl("Y", nm), "Y-axis", 
+                            ifelse(grepl("Z", nm), "Z-axis", "")
+                            )
+                     ), 
+              ifelse(substr(nm, 1, 1) == "t", "(seconds)", ""),
+              ifelse(substr(nm, 1, 1) == "f", "(frequency)", ""),
+              ifelse(grepl("angle", nm), "(degrees)", ""),
+              sep=""
+              )
 
+nmlabs <- data.frame(variable_name = nm, label = labs)
+
+wh <- which(nmlabs$variable_name=="activity")
+codebook <- rbind(nmlabs[1:wh,], 
+                  data.frame(variable_name = rep("", nrow(activ)), 
+                             label = paste(activ[,1], "\t",  activ[,2])),
+                  nmlabs[wh+1:nrow(nmlabs),])
+write.table(codebook, "CodeBook.txt", row.names = FALSE)
 
