@@ -5,7 +5,7 @@ The run_analysis.R file contains R code to load, merge and summarise the Samsung
 
 Lines 4-6 download and unzip the data to the working directory. The zip file is saved as Coursera_Projectdata.zip and is then unziped into the UCI HAR Dataset folder.
 
-Lines 10 and 11 load the raw data from the training and test dataset and line 12 then merges these two files together. Line 15 retrieves the variable names from the features file and Line 16 applies these names to the dataset.
+Lines 10 and 11 load the raw data from the training and test dataset and line 12 then merges these two files together. Line 15 retrieves the variable names from the features file and Line 16 applies these names to the dataset. These names seem to be as good as any other names I could come up with so I have refrained from changing them.
 
 Line 19 produces a dataset called extract containing only those variables containing mean and standard deviation variables.
 
@@ -17,6 +17,9 @@ Line 34 combines the extract data with the activity and participant identifiers.
 Line 37 calculates the mean of all variables for each combination of participant and activity.
 
 Line 40 exports the data to "Mean_Samsung_data.txt".
+
+
+
 
 dat <- read.table("Mean_Samsung_data.txt", head=TRUE) should be sufficient to load this data into R
 
